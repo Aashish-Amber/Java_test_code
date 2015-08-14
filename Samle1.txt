@@ -2,5 +2,7 @@ Public class test{
          Public void main(String [] args)
          {
 	    "Hello my name is aashish"
+            "Hi how are you"
+
          }
 }
