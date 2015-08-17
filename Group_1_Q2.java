@@ -1,63 +1,71 @@
-package practise1;
-import java.util.*;
-import java.lang.*;
-class circular{
-	public int isPrime(int num){
-		int sqrt = (int) Math.sqrt(num);
-		for (int i=2; i<= sqrt; i++){
-		if (num%i == 0) return 0;
-		}
-		return 1;
-	}
-	public int isCircularprime(int num){
-		//ArrayList<Integer> arr = new ArrayList();
-		int temp = num;
-		do{
-			int a = temp%10;
-			int b = temp/10;
-			//System.out.println("Hey")	;
-			String str_a = Integer.toString(a);
-			String str_b = Integer.toString(b);
-			String str_2 = new String();
-			if (a == 0) str_2 = str_b;
-		    else if (b == 0) str_2 = str_a;
-			else str_2 = str_a + str_b; 
-			//str_2 = str_a + str_b;
-			
-			int c = Integer.valueOf(str_2);
-			//System.out.println(c);
-			if (isPrime(c)==0)return 0;
-			temp = c;	
-			//System.out.println("Hello");
-		}while (temp != num);
-		return 1;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class ArrayGame {
+	static ArrayList<Integer> data = new ArrayList<Integer>();
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int m,n,T;
+		boolean result,temp=false;
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter the input..");
+		T = in.nextInt();
+		ArrayList<Integer> output = new ArrayList<Integer>();
 		
+		for(int k=0; k < T; k++){
+			temp=false;
+			data.clear();
+			n = in.nextInt();
+			m = in.nextInt();
+			for(int i=0;i<n;i++)
+				data.add(in.nextInt());
+		
+			for(int i=n-1; i>=n-m; i--){
+				//System.out.println(i);
+				if(data.get(i)==0)
+					temp = temp|canI(i,n,m,-i);
+			}
+			if(temp == true)
+				output.add(1);
+			else
+				output.add(0);
+		}
+		
+		for(int k=0; k < T; k++){
+			if(output.get(k)==1)
+				System.out.println("Yes");
+			else
+				System.out.println("No");
+		}
 	}
 	
-	public int is_it_Circularprime(int num){
-		//ArrayList<Integer> arr = new ArrayList();
-		int num1= num;
-		int temp = num;
-		while(temp>0){
-			int a = temp%10;
-			temp = temp/10;
-			if (a%2==0) return 0;
-		}
-		if (isCircularprime(num1)==1)
-		return 1;
-		else
-	    return 0;
-		
+	static boolean canI(int index,int n,int m,int prev){
+		//System.out.println(index);	
+		if(index > n-1 || index < 0)
+				return false;
+		else{
+				if(index==0)
+					return true;
+				
+				if(index>0){
+				if(data.get(index-1)==0 && prev!=index-1)
+					return canI(index-1,n,m,index);
+				}
+				
+				if(index<n-1 && prev!=index+1){
+				if(data.get(index+1)==0)
+					return canI(index+1,n,m,index);
+				}
+				
+				if(index-m>=0 && prev!=index-m){
+				if(data.get(index-m)==0)
+					return canI(index-m,n,m,index);
+				}
+				
+			}
+		return false;
 	}
-}
-public class assignment {
-	static circular test = new circular();
-	public static void main(String args[]){
-		int a = 10000000;
-		for (int i=2 ;i<a;i++){
-			int flag = test.is_it_Circularprime(i);
-			if(flag==1)System.out.println(i);
-		}
-		System.out.println("Exit");
-	}
+
 }
